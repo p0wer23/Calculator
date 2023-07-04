@@ -1,0 +1,53 @@
+html
+{
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
+.calci
+{
+    padding: 10px;
+    background-color: black;
+    width: 430px;
+    margin: auto;
+    border-radius: 16px;
+}
+
+.display
+{
+    background-color: grey;
+    height: 60px;
+    width: 400px;
+    border-radius: 6px;
+    margin: auto;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.buttons
+{
+    background-color: rgb(24,24,24);
+    margin: 5px 10px;
+    padding: 10px 0px;
+}
+
+.row
+{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+button
+{
+    padding: 8px 30px;
+    border-radius: 4px;
+    background-color: grey;
+}
+
+button.long
+{
+    padding: 9px 50px;
+}
