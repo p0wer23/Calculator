@@ -37,7 +37,7 @@ function newEvent(b){
             expression += b;
             break;
     }
-    expression_display.innerHTML = expression;
+    displaySmall()
 }
 
 
@@ -87,21 +87,41 @@ function addOperator(op){
 
 function calculateResult(){
     // Operate multiplication and division first (left to right)
-    operator_position = operatorPos('*', '/', 0)
+    operator_position = operatorPos('*', '/', 0);
     while (operator_position != -1){
+        prev_operator_position = Math.max(prevOp('+', '-', operator_position),0);
 
-        operator_position = operatorPos('*', '/', 0)
+        next_pos1 = operatorPos('+', '-', operator_position+2);
+        next_pos2 = operatorPos('*', '/', operator_position+1);
+        if (next_pos1*next_pos2>0){
+            next_operator_position = Math.min(next_pos1, next_pos2);
+        }
+        else{
+            next_operator_position = Math.max(next_pos1, next_pos2)
+        }
+        if (next_operator_position==-1)
+            next_operator_position = expression.length        
+        prev_num = expression.slice(prev_operator_position, operator_position);
+        next_num = expression.slice(operator_position+1, next_operator_position);
+        if (expression[operator_position]=='*'){
+            ans = prev_num*next_num;
+        }
+        else{
+            ans = prev_num/next_num;
+        }
+        expression = expression.slice(0, prev_operator_position) + ans.toString() + expression.slice(next_operator_position)
+        operator_position = operatorPos('*', '/', 0);
     }
 
     // Operate addition and subtraction (left to right)
     operator_position = operatorPos('+', '-', 1)
     while (operator_position != -1){
         next_operator_position = operatorPos('+', '-', operator_position+1);
-        first_num = parseInt(expression.slice(0, operator_position))
+        first_num = parseFloat(expression.slice(0, operator_position))
         if (next_operator_position == -1){
             next_operator_position  = expression.length
         }
-        next_num = parseInt(expression.slice(operator_position, next_operator_position))
+        next_num = parseFloat(expression.slice(operator_position, next_operator_position))
         current_result = first_num + next_num
         expression = current_result.toString() + expression.slice(next_operator_position)
 
@@ -119,4 +139,22 @@ function operatorPos(a, b, i){
         return Math.min(pos1, pos2)
     }
     return Math.max(pos1, pos2)
+}
+
+function prevOp(a, b, i){
+    pos1 = expression.lastIndexOf(a,i)
+    pos2 = expression.lastIndexOf(b,i)
+    if (pos1*pos2 > 0){
+        return Math.min(pos1, pos2)
+    }
+    return Math.max(pos1, pos2)
+}
+
+function displaySmall(){
+    let n = 33
+    if(expression.length<n){
+        expression_display.innerHTML = expression;
+        return 
+    }
+    expression_display.innerHTML = expression.slice(expression.length-n);
 }

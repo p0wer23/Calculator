@@ -26,6 +26,11 @@ html
     text-align: right;
 }
 
+.large_display{
+    font-weight: bold;
+    font-size: 25px;
+}
+
 .buttons
 {
     background-color: rgb(24,24,24);
